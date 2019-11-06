@@ -1,11 +1,5 @@
 package com.accredilink.bgv.util;
 
-
-/**
- * @author Vishnur
- *
- */
-
 public class Constants {
 
 	public static final String INVALID_EMAIL_ID = "Invalid email.";

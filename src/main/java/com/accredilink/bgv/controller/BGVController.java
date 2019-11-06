@@ -11,11 +11,6 @@ import com.accredilink.bgv.dto.RegistrationDTO;
 import com.accredilink.bgv.entity.Registration;
 import com.accredilink.bgv.service.BGVService;
 
-
-/**
- * @author Vishnu vardhan reddy
- *
- */
 @RestController
 public class BGVController {
 	

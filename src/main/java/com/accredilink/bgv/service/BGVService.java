@@ -3,11 +3,6 @@ package com.accredilink.bgv.service;
 import com.accredilink.bgv.dto.RegistrationDTO;
 import com.accredilink.bgv.entity.Registration;
 
-
-/**
- * @author Vishnu vardhan reddy
- *
- */
 public interface BGVService {
 	
 	/**

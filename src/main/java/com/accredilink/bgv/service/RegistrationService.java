@@ -3,10 +3,6 @@ package com.accredilink.bgv.service;
 import com.accredilink.bgv.dto.RegistrationDTO;
 
 
-/**
- * @author Vishnu vardhan reddy
- *
- */
 public interface RegistrationService {
 	
 	/**
@@ -22,5 +18,7 @@ public interface RegistrationService {
 	 * @return
 	 */
 	public String login(String userName, String password);
+	
+	public String resetPassword(String emailId, String password, String confirmPassword);
 
 }

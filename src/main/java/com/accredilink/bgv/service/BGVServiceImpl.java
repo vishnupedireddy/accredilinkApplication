@@ -15,10 +15,6 @@ import com.accredilink.bgv.entity.Registration;
 import com.accredilink.bgv.exception.CustomException;
 import com.accredilink.bgv.repository.RegistrationRepository;
 
-/**
- * @author Vishnu vardhan reddy
- *
- */
 @Service
 public class BGVServiceImpl implements BGVService{
 	
@@ -47,7 +43,13 @@ public class BGVServiceImpl implements BGVService{
 	 */
 	@Transactional
 	public Registration update(RegistrationDTO registrationDTO) throws Exception{
-		Registration registration = new Registration();
+		
+		Optional<Registration> optionalRegistration = registrationRepository.findById(registrationDTO.getSsnNumber());
+		if(!optionalRegistration.isPresent()) {
+			throw new CustomException("Invalid SSN number");
+		}
+		
+		Registration registration = optionalRegistration.get();
 		BeanUtils.copyProperties(registration, registrationDTO);
 		try {
 			registration = registrationRepository.save(registration);

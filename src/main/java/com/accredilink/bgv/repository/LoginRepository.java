@@ -10,6 +10,8 @@ import com.accredilink.bgv.entity.Login;
 @Repository
 public interface LoginRepository extends JpaRepository<Login, Long> {
 	
-	Optional<Login> findByUserNameAndPassword(String userName, String password);
+	Optional<Login> findByEmailIdAndPassword(String userName, String password);
+	
+	Optional<Login> findByEmailId(String emailId);
 
 }

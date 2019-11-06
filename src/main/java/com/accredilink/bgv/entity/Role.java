@@ -6,11 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-/**
- * @author Vishnur
- *
- */
-
 @Entity
 @Table(name = "ROLE")
 public class Role {

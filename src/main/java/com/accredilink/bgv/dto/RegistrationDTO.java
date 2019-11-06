@@ -21,6 +21,12 @@ public class RegistrationDTO implements Serializable {
 	private String password;
 	
 	private LocalDate dateOfBirth;
+	
+	private String middleName;
+	
+	private String aliasName;
+	
+	private String userRole;
 
 	public Long getSsnNumber() {
 		return ssnNumber;
@@ -68,5 +74,29 @@ public class RegistrationDTO implements Serializable {
 
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getAliasName() {
+		return aliasName;
+	}
+
+	public void setAliasName(String aliasName) {
+		this.aliasName = aliasName;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
 	}
 }

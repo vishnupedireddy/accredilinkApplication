@@ -10,11 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-/**
- * @author Vishnur
- *
- */
-
 @Entity
 @Table(name = "LOGIN")
 public class Login implements Serializable {
@@ -29,11 +24,14 @@ public class Login implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long entryId;
 	
-	@Column(name = "USER_NAME")
-	private String userName;
+	@Column(name = "EMAIL_ID")
+	private String emailId;
 	
 	@Column(name = "PASSWORD")
 	private String password;
+	
+	@Column(name = "CONFIRM_PASSWORD")
+	private String confirmPassword;
 
 	public Long getEntryId() {
 		return entryId;
@@ -44,11 +42,11 @@ public class Login implements Serializable {
 	}
 
 	public String getUserName() {
-		return userName;
+		return emailId;
 	}
 
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.emailId = userName;
 	}
 
 	public String getPassword() {
@@ -59,4 +57,11 @@ public class Login implements Serializable {
 		this.password = password;
 	}
 
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 }

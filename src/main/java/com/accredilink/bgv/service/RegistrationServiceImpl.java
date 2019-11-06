@@ -18,6 +18,7 @@ import com.accredilink.bgv.exception.CustomException;
 import com.accredilink.bgv.repository.LoginRepository;
 import com.accredilink.bgv.repository.RegistrationRepository;
 import com.accredilink.bgv.util.Constants;
+import com.accredilink.bgv.util.EmailValidator;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -92,7 +93,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	@Transactional
 	public String login(String userName, String password) {
 		
-		Optional<Login> optionalLogin = loginRepository.findByUserNameAndPassword(userName, password);
+		Optional<Login> optionalLogin = loginRepository.findByEmailIdAndPassword(userName, password);
 		if(optionalLogin.isPresent()) {
 			return Constants.LOGIN_SUCCESS;
 		}
@@ -100,7 +101,35 @@ public class RegistrationServiceImpl implements RegistrationService {
 	}
 	
 	private boolean isEmailValid(String emailId) {
-		return true;
+		EmailValidator emailValidator = new EmailValidator();
+		return emailValidator.validate(emailId);
+	}
+
+	@Transactional
+	public String resetPassword(String emailId, String password, String confirmPassword) {
+		Optional<Registration> optionalRegistration = registrationRepository.findByEmailId(emailId);
+		if(!optionalRegistration.isPresent()) {
+			throw new CustomException(Constants.INVALID_EMAIL_ID);
+		}
+		Registration registration = optionalRegistration.get();
+		try {
+			registration.setPassword(password);
+			registrationRepository.save(registration);
+			
+			/* Upadating password into Login table */
+			Optional<Login> optionalLogin = loginRepository.findByEmailId(emailId);
+			if(optionalLogin.isPresent()) {
+				Login login = optionalLogin.get();
+				login.setPassword(password);
+				login.setConfirmPassword(confirmPassword);
+				loginRepository.save(login);
+			}
+		} catch(Exception e) {
+			logger.error("Exception raised in reset password : " + e);
+			return "Exceptin raised in reset password";
+		}
+		
+		return "Successfully password is changed.";
 	}
 
 }
