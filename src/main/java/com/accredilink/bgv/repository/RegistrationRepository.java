@@ -11,5 +11,5 @@ import com.accredilink.bgv.entity.Registration;
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 	
 	Optional<Registration> findByEmailId(String emailId);
-
+	
 }

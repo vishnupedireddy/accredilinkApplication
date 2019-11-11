@@ -1,3 +1,4 @@
+
 package com.accredilink.bgv;
 
 import java.util.Optional;
@@ -20,56 +21,59 @@ import com.accredilink.bgv.repository.RegistrationRepository;
 import com.accredilink.bgv.service.RegistrationServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
+
 @SpringBootTest
 public class RegistrationServiceTest {
-	
+
 	@InjectMocks
 	RegistrationServiceImpl registrationService;
+
 	@Mock
 	RegistrationRepository registrationRepository;
+
 	@Mock
 	LoginRepository loginRepository;
-	
+
 	RegistrationDTO registrationDTO = null;
 	Login login = null;
 	Registration registration = null;
-	
-	
+
 	@Before
 	public void setUp() {
-		
+
 		registrationDTO = new RegistrationDTO();
-		registrationDTO.setSsnNumber(5180L);
+		registrationDTO.setSsnNumber("5180");
 		registrationDTO.setFirstName("vishnu");
 		registrationDTO.setLastName("reddy");
 		registrationDTO.setUserRole("user");
 		registrationDTO.setEmailId("vis@gmail.com");
-		
+
 		login = new Login();
-		login.setUserName("vis@gmail.com");
 		login.setPassword("vis");
 		login.setConfirmPassword("vis@gmail.com");
-		
+
 		registration = new Registration();
 		registration.setSsnNumber(5180L);
 	}
-	
+
 	@Test
 	public void testLogin() {
-		
-		Optional<Login> optionalLogin=Optional.of(login);
-		Mockito.when(loginRepository.findByEmailIdAndPassword(login.getUserName(), login.getPassword())).thenReturn(optionalLogin);
-		String response = registrationService.login(login.getUserName(), login.getPassword());
+
+		Optional<Login> optionalLogin = Optional.of(login);
+		Mockito.when(loginRepository.findByEmailIdAndPassword(login.getEmailId(), login.getPassword()))
+				.thenReturn(optionalLogin);
+		String response = registrationService.login(login.getEmailId(), login.getPassword());
 		Assert.assertNotNull(response);
 		Assert.assertEquals(response, "Login success");
 	}
-	
+
 	@Test
 	public void testResetPassword() {
-		
+
 		Optional<Registration> optionalRegistration = Optional.of(registration);
 		Mockito.when(registrationRepository.findByEmailId(registration.getEmailId())).thenReturn(optionalRegistration);
-		String response = registrationService.resetPassword(registration.getEmailId(), login.getPassword(), login.getConfirmPassword());
+		String response = registrationService.resetPassword(registration.getEmailId(), login.getPassword(),
+				login.getConfirmPassword());
 		Assert.assertNotNull(response);
 		Assert.assertEquals(response, "Successfully password is changed.");
 	}

@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.accredilink.bgv.dto.RegistrationDTO;
 import com.accredilink.bgv.entity.Registration;
+import com.accredilink.bgv.entity.User;
 import com.accredilink.bgv.service.BGVService;
 
 @RestController
@@ -17,9 +19,9 @@ public class BGVController {
 	@Autowired
 	BGVService bgvService;
 	
-	@GetMapping("/view/{ssnNumber}")
-	public Registration view(@PathVariable Long ssnNumber) {
-		return bgvService.view(ssnNumber);
+	@GetMapping("/view")
+	public User view(@RequestParam(name = "roleType") String roleType, @RequestParam(name = "userId") Long userId) {
+		return bgvService.view(roleType,userId);
 	}
 	
 	@PostMapping("/update")

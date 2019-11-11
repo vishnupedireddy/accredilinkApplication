@@ -2,6 +2,7 @@ package com.accredilink.bgv.service;
 
 import com.accredilink.bgv.dto.RegistrationDTO;
 import com.accredilink.bgv.entity.Registration;
+import com.accredilink.bgv.entity.User;
 
 public interface BGVService {
 	
@@ -9,7 +10,7 @@ public interface BGVService {
 	 * @param ssnNumber
 	 * @return
 	 */
-	public Registration view(Long ssnNumber);
+	public User view(String roleType,Long userId);
 	
 	/**
 	 * @param registrationDTO

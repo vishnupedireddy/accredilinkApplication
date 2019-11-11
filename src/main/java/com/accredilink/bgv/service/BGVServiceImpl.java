@@ -12,8 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.accredilink.bgv.dto.RegistrationDTO;
 import com.accredilink.bgv.entity.Registration;
+import com.accredilink.bgv.entity.User;
 import com.accredilink.bgv.exception.CustomException;
 import com.accredilink.bgv.repository.RegistrationRepository;
+import com.accredilink.bgv.repository.UserRepository;
+import com.accredilink.bgv.util.Constants;
 
 @Service
 public class BGVServiceImpl implements BGVService{
@@ -22,18 +25,33 @@ public class BGVServiceImpl implements BGVService{
 	
 	@Autowired
 	RegistrationRepository registrationRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 
 	/**
 	 * @param ssnNumber
 	 * @return
 	 */
 	@Transactional
-	public Registration view(Long ssnNumber) {
-		Optional<Registration> registratin = registrationRepository.findById(ssnNumber);
-		if(!registratin.isPresent()) {
-			throw new CustomException("Invalid SSN Number");
+	public User view(String roleType, Long userId) {
+		
+		Optional<User> optionalUser = userRepository.findById(userId);
+		if(!optionalUser.isPresent()) {
+			throw new CustomException("Invalid user id");
 		}
-		return registratin.get();
+		
+		User user = optionalUser.get();
+
+		if (roleType.equalsIgnoreCase(Constants.INDIVIDUAL)) {
+			user.setAddress(null);
+			user.setCompany(null);
+			user.setUserType(null);
+		} else if (roleType.equalsIgnoreCase(Constants.COMPANY)) {
+			user.setSsnNumber("");
+		}
+ 
+		return user;
 	}
 
 	/**
@@ -44,7 +62,7 @@ public class BGVServiceImpl implements BGVService{
 	@Transactional
 	public Registration update(RegistrationDTO registrationDTO) throws Exception{
 		
-		Optional<Registration> optionalRegistration = registrationRepository.findById(registrationDTO.getSsnNumber());
+		Optional<Registration> optionalRegistration = registrationRepository.findById(Long.valueOf(registrationDTO.getSsnNumber()));
 		if(!optionalRegistration.isPresent()) {
 			throw new CustomException("Invalid SSN number");
 		}

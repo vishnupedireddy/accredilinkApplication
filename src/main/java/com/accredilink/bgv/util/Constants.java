@@ -11,5 +11,9 @@ public class Constants {
 	public static final String LOGIN_SUCCESS = "Login success";
 	
 	public static final String INVALID_CREDENTIALS = "Invalid credentials";
+	
+	public static final String INDIVIDUAL = "individual";
+	
+	public static final String COMPANY = "company";
 
 }
