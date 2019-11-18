@@ -1,6 +1,8 @@
 package com.accredilink.bgv.service;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.transaction.Transactional;
 
@@ -51,23 +53,26 @@ public class RegistrationServiceImpl implements RegistrationService {
 		/*
 		 * Checking email id is valid or not, if it is invalid then throwing exception.
 		 */
-
 		boolean isValid = isEmailValid(registrationDTO.getEmailId());
 		if (!isValid) {
 			throw new AccredilinkException(Constants.INVALID_EMAIL_ID);
 		}
-
+		
 		/*
 		 * Checking email id already exist or not, if it is exists then throwing
 		 * exception.
 		 */
-
 		Optional<Registration> optionalRegistration = registrationRepository
 				.findByEmailId(registrationDTO.getEmailId());
 		if (optionalRegistration.isPresent()) {
 			throw new AccredilinkException(Constants.ALREADY_EMAIL_ID_REGISTERED);
 		}
-
+		
+		/* Checking mobile number is valid or not */
+		boolean isMobileNumValid = isValidMobileNumber(String.valueOf(registrationDTO.getPhoneNo()));
+		if(!isMobileNumValid) {
+			throw new AccredilinkException(Constants.INVALID_MOBILE_NO);
+		}
 		try {
 
 			User user = new User();
@@ -79,7 +84,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 			user.setLastName(registrationDTO.getLastName());
 			user.setDateOfBirth(registrationDTO.getDateOfBirth());
 			user.setEmailId(registrationDTO.getEmailId());
-			user.setSsnNumber(registrationDTO.getSsnNumber());
+			
+			String encryptedSSNNumber = EncriptAndDescript.encrypt(registrationDTO.getSsnNumber());
+			user.setSsnNumber(encryptedSSNNumber);
 			user.setPhoneNumber(registrationDTO.getPhoneNo());
 
 			/*
@@ -228,6 +235,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 		user.setUserType(userType);
 
 		return user;
-
 	}
+	
+	private static boolean isValidMobileNumber(String s) { 
+		Pattern p = Pattern.compile("^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$"); 
+		 
+		Matcher m = p.matcher(s); 
+		return (m.find() && m.group().equals(s)); 
+	} 
 }

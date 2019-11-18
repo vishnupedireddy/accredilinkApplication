@@ -1,12 +1,13 @@
 package com.accredilink.bgv.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.accredilink.bgv.dto.ResponseDTO;
 import com.accredilink.bgv.service.NotificationService;
 
 @Controller
@@ -16,15 +17,13 @@ public class NotificationController {
 	NotificationService notificationService;
 	
 	@GetMapping("/notifyResetPassword")
-	public ResponseDTO notifyForResetPassword(@RequestParam(required = true) String emailId) {
+	public Map<String, String> notifyForResetPassword(@RequestParam(required = true) String emailId) {
 		boolean flag = notificationService.resetPasswordNotification(emailId);
-		ResponseDTO respose = new ResponseDTO();
+		Map<String, String> map = new HashMap<String, String>();
 		if(flag) {
-			respose.setMessage("Notification sent successfully");
-			respose.setStatudCode(HttpStatus.OK.value());
+			map.put(emailId, "Notification sent successfully");
 		}
-		respose.setMessage("Failed to sent notification");
-		respose.setStatudCode(HttpStatus.NOT_FOUND.value());
-		return respose;
+		map.put(emailId, "Failed to send notification");
+		return map;
 	}
 }

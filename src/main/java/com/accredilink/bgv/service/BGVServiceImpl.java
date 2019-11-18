@@ -17,6 +17,7 @@ import com.accredilink.bgv.exception.AccredilinkException;
 import com.accredilink.bgv.repository.RegistrationRepository;
 import com.accredilink.bgv.repository.UserRepository;
 import com.accredilink.bgv.util.Constants;
+import com.accredilink.bgv.util.EncriptAndDescript;
 
 @Service
 public class BGVServiceImpl implements BGVService{
@@ -42,6 +43,8 @@ public class BGVServiceImpl implements BGVService{
 		}
 		
 		User user = optionalUser.get();
+		String descriptSSNNumber = EncriptAndDescript.decrypt(user.getSsnNumber());
+		user.setSsnNumber(descriptSSNNumber);
 
 		if (roleType.equalsIgnoreCase(Constants.INDIVIDUAL)) {
 			user.setAddress(null);
@@ -50,7 +53,6 @@ public class BGVServiceImpl implements BGVService{
 		} else if (roleType.equalsIgnoreCase(Constants.COMPANY)) {
 			user.setSsnNumber("");
 		}
- 
 		return user;
 	}
 

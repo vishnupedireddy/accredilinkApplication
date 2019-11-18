@@ -68,7 +68,7 @@ public class NotificationServiceImpl implements NotificationService {
 			mailSender.send(mimeMessage);
 			
 		} catch(Exception e) {
-			logger.error("Exceptin raised in registration notification : " + e);
+			logger.error("Exceptin raised in reset password notification : " + e);
 			return false;
 		}
 		return true;

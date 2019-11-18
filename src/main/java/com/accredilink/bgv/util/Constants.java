@@ -12,6 +12,8 @@ public class Constants {
 	
 	public static final String INVALID_CREDENTIALS = "Invalid credentials";
 	
+	public static final String INVALID_MOBILE_NO = "Invalid mobile number";
+	
 	public static final String INDIVIDUAL = "individual";
 	
 	public static final String COMPANY = "company";
