@@ -29,7 +29,7 @@ public class BGVServiceImpl implements BGVService{
 	
 	@Autowired
 	UserRepository userRepository;
-
+	
 	/**
 	 * @param ssnNumber
 	 * @return
