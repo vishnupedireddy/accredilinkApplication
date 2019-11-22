@@ -21,7 +21,7 @@ public class GobalExceptionHandler extends ResponseEntityExceptionHandler {
 		errorResponse.setTimeStamp(LocalDateTime.now());
 		errorResponse.setStatusCode(0);
 		
-		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.EXPECTATION_FAILED);
 	}
 
 }

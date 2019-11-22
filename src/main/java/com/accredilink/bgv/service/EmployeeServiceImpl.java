@@ -37,16 +37,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new AccredilinkException(Constants.INVALID_EMAIL_ID);
 		}
 		
-		ResponseObject responseDTO = new ResponseObject();
+		ResponseObject responseObject = new ResponseObject();
 		try {
 			employeeRepository.save(employee);
 		} catch(Exception e) {
 			logger.error("Exception raised in creating employee ", e);
 			throw new AccredilinkException("Exception raised in creating employee ");
 		}
-		responseDTO.setMessage("Success");
-		responseDTO.setStatudCode(1);
-		return responseDTO;
+		responseObject.setMessage("Success");
+		responseObject.setStatudCode(1);
+		return responseObject;
 	}
 
 	@Transactional
