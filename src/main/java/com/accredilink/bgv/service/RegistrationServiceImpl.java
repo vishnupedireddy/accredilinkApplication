@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.accredilink.bgv.dto.RegistrationDTO;
-import com.accredilink.bgv.dto.ResponseDTO;
+import com.accredilink.bgv.dto.ResponseObject;
 import com.accredilink.bgv.entity.Address;
 import com.accredilink.bgv.entity.Company;
 import com.accredilink.bgv.entity.Login;
@@ -48,7 +48,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 * @throws Exception
 	 */
 	@Transactional
-	public ResponseDTO registration(RegistrationDTO registrationDTO) throws Exception {
+	public ResponseObject registration(RegistrationDTO registrationDTO) throws Exception {
 
 		/*
 		 * Checking email id is valid or not, if it is invalid then throwing exception.
@@ -128,7 +128,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			logger.error("ERROR : while sending notification at registration");
 		}
 		 
-		ResponseDTO responseDTO  = new ResponseDTO();
+		ResponseObject responseDTO  = new ResponseObject();
 		responseDTO.setMessage(Constants.REGISTRATION_SUCCESS);
 		responseDTO.setStatudCode(HttpStatus.OK.value());
 		return responseDTO;
@@ -140,9 +140,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 	 * @return
 	 */
 	@Transactional
-	public ResponseDTO login(String userName, String password) {
+	public ResponseObject login(String userName, String password) {
 
-		ResponseDTO responseDTO  = new ResponseDTO();
+		ResponseObject responseDTO  = new ResponseObject();
 		String encryptedPassword = EncriptAndDescript.encrypt(password);
 		Optional<Login> optionalLogin = loginRepository.findByEmailIdAndPassword(userName, encryptedPassword);
 		if (optionalLogin.isPresent()) {
@@ -161,7 +161,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	}
 
 	@Transactional
-	public ResponseDTO resetPassword(String emailId, String password, String confirmPassword) {
+	public ResponseObject resetPassword(String emailId, String password, String confirmPassword) {
 		Optional<Registration> optionalRegistration = registrationRepository.findByEmailId(emailId);
 		if (!optionalRegistration.isPresent()) {
 			throw new AccredilinkException(Constants.INVALID_EMAIL_ID);
@@ -191,7 +191,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			logger.info("ERROR : while sending notification for reset password");
 		}
 
-		ResponseDTO responseDTO  = new ResponseDTO();
+		ResponseObject responseDTO  = new ResponseObject();
 		responseDTO.setMessage(Constants.PASSWORD_CHANGED);
 		responseDTO.setStatudCode(HttpStatus.CREATED.value());
 		return responseDTO;

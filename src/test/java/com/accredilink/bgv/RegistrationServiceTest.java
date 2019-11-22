@@ -14,7 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.accredilink.bgv.dto.RegistrationDTO;
-import com.accredilink.bgv.dto.ResponseDTO;
+import com.accredilink.bgv.dto.ResponseObject;
 import com.accredilink.bgv.entity.Login;
 import com.accredilink.bgv.entity.Registration;
 import com.accredilink.bgv.repository.LoginRepository;
@@ -63,7 +63,7 @@ public class RegistrationServiceTest {
 		Optional<Login> optionalLogin = Optional.of(login);
 		Mockito.when(loginRepository.findByEmailIdAndPassword(login.getEmailId(), login.getPassword()))
 				.thenReturn(optionalLogin);
-		ResponseDTO response = registrationService.login(login.getEmailId(), login.getPassword());
+		ResponseObject response = registrationService.login(login.getEmailId(), login.getPassword());
 		Assert.assertNotNull(response);
 		Assert.assertEquals(response, "Login success");
 	}
@@ -73,7 +73,7 @@ public class RegistrationServiceTest {
 
 		Optional<Registration> optionalRegistration = Optional.of(registration);
 		Mockito.when(registrationRepository.findByEmailId(registration.getEmailId())).thenReturn(optionalRegistration);
-		ResponseDTO response = registrationService.resetPassword(registration.getEmailId(), login.getPassword(),
+		ResponseObject response = registrationService.resetPassword(registration.getEmailId(), login.getPassword(),
 				login.getConfirmPassword());
 		Assert.assertNotNull(response);
 		Assert.assertEquals(response, "Successfully password is changed.");

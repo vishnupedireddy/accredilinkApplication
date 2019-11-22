@@ -1,7 +1,7 @@
 package com.accredilink.bgv.service;
 
 import com.accredilink.bgv.dto.RegistrationDTO;
-import com.accredilink.bgv.dto.ResponseDTO;
+import com.accredilink.bgv.dto.ResponseObject;
 
 
 public interface RegistrationService {
@@ -11,15 +11,15 @@ public interface RegistrationService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ResponseDTO registration(RegistrationDTO registrationDTO) throws Exception;
+	public ResponseObject registration(RegistrationDTO registrationDTO) throws Exception;
 	
 	/**
 	 * @param userName
 	 * @param password
 	 * @return
 	 */
-	public ResponseDTO login(String userName, String password);
+	public ResponseObject login(String userName, String password);
 	
-	public ResponseDTO resetPassword(String emailId, String password, String confirmPassword);
+	public ResponseObject resetPassword(String emailId, String password, String confirmPassword);
 
 }

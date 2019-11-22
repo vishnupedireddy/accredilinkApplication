@@ -6,6 +6,6 @@ import com.accredilink.bgv.entity.AccrediEmployee;
 
 public interface SearchService {
 	
-	public List<AccrediEmployee> searchEmployee(String searchStr);
+	public List<AccrediEmployee> searchEmployee();
 
 }

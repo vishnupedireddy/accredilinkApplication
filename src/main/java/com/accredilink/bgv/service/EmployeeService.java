@@ -1,13 +1,15 @@
 package com.accredilink.bgv.service;
 
-import com.accredilink.bgv.dto.ResponseDTO;
+import java.util.Map;
+
+import com.accredilink.bgv.dto.ResponseObject;
 import com.accredilink.bgv.entity.AccrediEmployee;
 
 public interface EmployeeService {
 	
-	public ResponseDTO createEmployee(AccrediEmployee employee);
+	public ResponseObject createEmployee(AccrediEmployee employee);
 		
-	public ResponseDTO deleteEmployee(String ssnNumber);
+	public Map<String, Long> deleteEmployee(Long empId);
 	
 	
 

@@ -14,10 +14,9 @@ public class SearchServiceImpl implements SearchService {
 	@Autowired
 	EmployeeRepository employeeRepository;
 
-	public List<AccrediEmployee> searchEmployee(String searchStr) {
+	public List<AccrediEmployee> searchEmployee() {
 
-		List<AccrediEmployee> employeeList = employeeRepository.findByFirstNameOrLastNameOrEmailIdOrSsnNumber(searchStr,
-				searchStr, searchStr, searchStr);
+		List<AccrediEmployee> employeeList = employeeRepository.findAll();
 		return employeeList;
 	}
 }

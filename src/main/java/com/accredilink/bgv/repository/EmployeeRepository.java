@@ -11,8 +11,4 @@ import com.accredilink.bgv.entity.AccrediEmployee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<AccrediEmployee, Long> {
 	
-	Optional<AccrediEmployee> findBySsnNumber(String ssnNumber);
-	
-	List<AccrediEmployee> findByFirstNameOrLastNameOrEmailIdOrSsnNumber(String firstName, String lastName, String emailId, String ssnNumber);
-
 }

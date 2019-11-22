@@ -1,5 +1,7 @@
 package com.accredilink.bgv.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -10,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.accredilink.bgv.dto.ResponseDTO;
+import com.accredilink.bgv.dto.ResponseObject;
 import com.accredilink.bgv.entity.AccrediEmployee;
 import com.accredilink.bgv.exception.AccredilinkException;
 import com.accredilink.bgv.repository.EmployeeRepository;
@@ -26,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	EmployeeRepository employeeRepository;
 	
 	@Transactional
-	public ResponseDTO createEmployee(AccrediEmployee employee) {
+	public ResponseObject createEmployee(AccrediEmployee employee) {
 		
 		/*
 		 * Checking email id is valid or not, if it is invalid then throwing exception.
@@ -36,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new AccredilinkException(Constants.INVALID_EMAIL_ID);
 		}
 		
-		ResponseDTO responseDTO = new ResponseDTO();
+		ResponseObject responseDTO = new ResponseObject();
 		try {
 			employeeRepository.save(employee);
 		} catch(Exception e) {
@@ -50,22 +52,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Transactional
-	public ResponseDTO deleteEmployee(String ssnNumber) {
-		Optional<AccrediEmployee> optionalEmployee = employeeRepository.findBySsnNumber(ssnNumber);
+	public Map<String, Long> deleteEmployee(Long empId) {
+		Optional<AccrediEmployee> optionalEmployee = employeeRepository.findById(empId);
 		if(!optionalEmployee.isPresent()) {
-			throw new AccredilinkException("Employee not found with " + ssnNumber);
+			throw new AccredilinkException("Employee not found with " + empId);
 		}
 		AccrediEmployee employee = optionalEmployee.get();
-		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			employeeRepository.delete(employee);
 		} catch(Exception e) {
 			logger.error("Exception raised in deleting employee ", e);
 			throw new AccredilinkException("Exception raised in deleting employee ");
 		}
-		responseDTO.setMessage("Deleted employee successfully");
-		responseDTO.setStatudCode(HttpStatus.OK.value());
-		return responseDTO;
+		Map<String, Long> map = new HashMap<String, Long>();
+		map.put("EmployeeId", empId);
+		return map;
 	}
 	
 	private boolean isEmailValid(String emailId) {
